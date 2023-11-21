@@ -1,9 +1,30 @@
-# go-pandora-pay
+# Gov-Smart Blockchain
 
-PandoraPay blockchain in go
+Gov-Smart Blockchain is an open-source go technology.
 
-The main design pattern that has been taken in consideration is to be **dead-simple**. A source code that is simple is
-bug free and easy to be developed and improved over time.
+The main design pattern that has been taken in consideration is to be **dead-simple**. A source code that is simple is bug free and easy to be developed and improved over time.
+
+### Consensus System: UPPOS (Unspendable Private Proof of Stake)
+
+The current consensus system in our blockchain is UPPOS, specifically chosen for its compatibility with our innovative voting system. UPPOS is a proof of stake consensus mechanism that ensures confidentiality and security through the use of ring signatures and confidential amounts.
+
+## Purpose and Nature of the Native Token
+
+This blockchain is not a cryptocurrency platform but a decentralized system designed for government applications. The native token of this system is not intended to have financial value. It serves as a utility token within the ecosystem, facilitating various functionalities such as voting and decentralized governance. While the system may support assets with financial value in the future, it is not recommended without implementing sharding, due to the speed limitations for financial transactions.
+
+## ZETER: Enabling Anonymous Voting
+
+We are incorporating ZETER into our system to enable citizens to vote anonymously from their homes. This feature is a significant step towards enhancing democratic participation and ensuring the privacy and security of voters.
+
+### Development Roadmap
+
+Transition to IPOS (Identity Proof of Stake): We plan to evolve our consensus mechanism to IPOS, a unique version of DPOS. IPOS will allow every citizen, once registered in the distributed ledger, to participate in mining, even offline. This approach ensures the decentralization of the system and mitigates risks such as the 50%+1 attack and unwanted forks. Any consensus forks will occur democratically, respecting the system's decentralized nature.
+
+Enabling the Voting System: The integration of a secure and anonymous voting system is a key priority. This system will empower citizens to participate in governance decisions securely and privately.
+
+Implementing Sharding: To accommodate assets with financial value and enhance public data storage, we will introduce sharding. This will improve the system's scalability and efficiency, particularly for national and local economic applications.
+
+Smart Contracts for Bureaucracy Automation: The introduction of smart contracts is aimed at transferring bureaucratic processes onto the blockchain. This will streamline governance and administrative procedures, making them more transparent and efficient.
 
 ### DOCS
 
@@ -23,144 +44,6 @@ bug free and easy to be developed and improved over time.
 
 [Master Thesis: Privacy-Preserving and Horizontally Scalable Blockchain using Zero Knowledge and Distributed Computing](/docs/master-thesis-privacy-preserving-and-horizontally-scalable-blockchain-using-zero-knowledge-and-distributed-computing.pdf)
 
-## Status of Blockchain implementation:
-
-- [x] Simple GUI
-- [x] CLI commands
-- [x] ECDSA
-    - [x] Private Key
-    - [x] Public Address (amount and paymentID)
-    - [x] HD Wallet
-- [x] Commit/Rollback Database
-- [x] Wallet
-    - [x] Menomic Seed
-    - [x] Save and Load
-    - [x] Print Wallet Simple Balances
-    - [x] Print Wallet Homomorphic Balances
-    - [X] Export Address JSON
-    - [X] Import Address JSON
-    - [X] Wallet Encryption
-- [x] Merkle Tree
-- [x] Block
-    - [x] Serialization
-    - [x] Deserialization
-    - [x] Hashing
-    - [x] Kernel Hash
-    - [x] Forger signing
-- [x] Blockchain
-    - [x] Saving state
-    - [x] Locking mechanism
-    - [x] Difficulty Adjustment
-    - [x] Timestamp maximum drift
-- [x] Forging
-    - [x] Forging with wallets Multithreading
-    - [X] Forging with staked accounts
-        - [x] Accepting to stakes from network
-- [x] Balances
-    - [x] Balance and Nonce Update
-    - [x] Liquidity fee
-- [x] Homomorphic Balances
-    - [x] Homomorphic balance and nonce
-    - [x] Multiple Assets
-- [ ] Patricia Trie ? **
-- [ ] Assets
-    - [X] Asset
-    - [x] Creation
-    - [x] Increase Supply
-    - [ ] Decrease Supply
-    - [x] Liquidity Pools for Tx Fees
-- [x] Transactions
-    - [x] Transaction Wizard
-    - [x] Transaction Builder
-    - [x] Fee calculator
-    - [x] Multi Threading signature verification
-- [x] Simple Transactions
-    - [x] Fee calculator
-    - [x] Update Asset Fee Liquidity
-- [x] Zether Transactions
-    - [x] Transfer
-    - [x] Spend Tx
-    - [x] Staking
-    - [x] Staking Reward
-    - [x] Asset Create
-    - [x] Asset Supply Increase
-    - [x] Plain Account Fund
-- [ ] Mem Pool
-    - [ ] Saving/Loading **
-    - [X] Inserting Txs
-    - [x] Sorting by fee per byte
-    - [x] Network propagation
-- [X] Network
-    - [X] HTTP server
-    - [X] HTTP websocket server
-    - [x] HTTP websocket client
-    - [X] TOR Integration
-    - [x] P2P network
-- [x] API
-    - [X] API blockchain explorers
-    - [x] API wallets
-- [X] Consensus
-    - [X] API websockets for Forks
-    - [X] Fork manager and downloader
-- [X] Webassembly build
-    - [X] GUI
-    - [X] Store
-    - [X] Websockets
-    - [X] Network
-- [x] Wallet
-    - [X] Node.js and Javascript wallet
-    - [X] Signing transactions
-    - [ ] Documentation **
-    - [X] Explorer
-
-** later on optimizations and improvements
-
-### Consensus UPPOS
-
-The initial version of the consensus was DPOS, but it required all delegated accounts to have the balances public and
-known. Later, we switched the consensus from DPOS to a novel consensus we designed named UPPOS (Unspendable Private
-Proof of Stake), which is a proof of stake consensus with confidential amounts and ring signatures.
-
-The block forger will prove that he has owns coins >= value B (with B being public) that solves the staking
-equation. `Hash( PrevBlockKernelHash + StakingNonce + Timestamp) / B <= Target`
-
-where `B` is the balance and could be between (0..Account Balance]. By `B` we understand the minimum value that
-satisfies the above equation. StakingNonce is unique per address for each new block.
-
-For cold staking or even more security, the private key of the account can be "shared" with a delegator full node. Thus,
-the node will generate the special zether transactions that prove that the shared account has a balance >= B. To avoid
-the delegator steal the coins, accounts will need to have a special SpendPublicKey attached. Only the real owner of the
-account will know the private key of this SpendKey allowing only him to move the coins out his account. The only disadvantage is
-that when a SpendKey is attached, and a user transfer his coins, it is quite fairly guessable that he is the sender from
-the sender ring. A third party online service provider that behaves like a Two Factor Authenticator (even multisig) could be later
-hosted by the community members and the SpendPublicKey could be the same and used by multiple people. Having multiple
-addresses having the same SpendPublicKey will allow this way the Private Unspendable Accounts.
-
-The main reasons why UPPOS has been chosen over POS:
-
-1. Sharing your stake to a third party node increases security as your wallet can be secured with a cold spend private
-   key.
-2. Sharing your stake to someone to stake increases the privacy as you don't need to be online for staking.
-3. Completely offline can be done to increase the security.
-4. Griding technique and short range attack vector attack is solved using rollover window for staked accounts requiring
-   them to get into a pending queue.
-
-### Future proposals
-
-1. state trie proofs to prove to light clients the state.
-2. creating macro blocks by selecting specific nodes for a meta chain. This allows light consensus.
-3. scalability. There will be research done to understand the best way to scale up the technology.
-
 # DISCLAIMER:
 
-This source code is released for research purposes only, with the intent of researching and studying a decentralized p2p
-network protocol.
-
-PANDORAPAY IS AN OPEN SOURCE COMMUNITY DRIVEN RESEARCH PROJECT. THIS IS RESEARCH CODE PROVIDED TO YOU "AS IS" WITH NO
-WARRANTIES OF CORRECTNESS. IN NO EVENT SHALL THE CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES. USE AT YOUR OWN RISK.
-
-You may not use this source code for any illegal or unethical purpose; including activities which would give rise to
-criminal or civil liability.
-
-Under no event shall the Licensor be responsible for the activities, or any misdeeds, conducted by the Licensee.
+This source code is a fork of PandoraPay, released for research purposes only, with the intent of researching and studying a decentralized p2p network protocol for governance.
