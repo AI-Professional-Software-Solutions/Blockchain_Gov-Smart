@@ -42,8 +42,17 @@ Smart Contracts for Bureaucracy Automation: The introduction of smart contracts 
 
 [Transactions](/docs/transactions.md)
 
-[Master Thesis: Privacy-Preserving and Horizontally Scalable Blockchain using Zero Knowledge and Distributed Computing](/docs/master-thesis-privacy-preserving-and-horizontally-scalable-blockchain-using-zero-knowledge-and-distributed-computing.pdf)
+[Gov-Smart WhitePaper - Alexandru Panait](https://gov-smart.com/whitepaper.pdf)
 
-# DISCLAIMER:
+[Master Thesis: Privacy-Preserving and Horizontally Scalable Blockchain using Zero Knowledge and Distributed Computing - Ionut Budisteanu](/docs/master-thesis-privacy-preserving-and-horizontally-scalable-blockchain-using-zero-knowledge-and-distributed-computing.pdf)
 
-This source code is a fork of PandoraPay, released for research purposes only, with the intent of researching and studying a decentralized p2p network protocol for governance.
+
+## DISCLAIMER:
+
+This source code is a fork of PandoraPay, originally released for research purposes with a focus on studying anonymity in decentralized peer-to-peer network protocols. This fork has been created with the intent of extending the research to explore its applicability in the realm of governance. The primary objectives of this fork are to investigate and develop a network dedicated to:
+
+1. **Digital Identity**: Establishing a robust framework for digital identities, ensuring secure and verifiable identification of individuals and entities within the network.
+2. **Electronic Signatures**: Facilitating legally binding electronic signatures, thereby enhancing the efficiency and authenticity of digital transactions and agreements.
+3. **Immutability of Documents**: Ensuring the integrity and immutability of documents stored and managed on the blockchain, thereby providing a secure and tamper-proof repository for important records and information.
+
+This fork is part of an ongoing effort to leverage blockchain technology for improving governance systems, with a particular emphasis on privacy, security, and efficiency.
