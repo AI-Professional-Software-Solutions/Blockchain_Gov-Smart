@@ -153,7 +153,7 @@ func (tx *TransactionSimple) Deserialize(r *advanced_buffers.BufferReader) (err 
 	case SCRIPT_RESOLUTION_CONDITIONAL_PAYMENT:
 		tx.Extra = &transaction_simple_extra.TransactionSimpleExtraResolutionConditionalPayment{}
 	case SCRIPT_NOTHING:
-		TX.EXTRA = &transaction_simple_extra.TransactionSimpleNothing{}
+		tx.Extra = &transaction_simple_extra.TransactionSimpleNothing{}
 	default:
 		return errors.New("INVALID SCRIPT TYPE")
 	}

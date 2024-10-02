@@ -2,23 +2,19 @@ package transaction_simple_extra
 
 import (
 	"errors"
-	"pandora-pay/blockchain/data_storage"
-	"pandora-pay/blockchain/data_storage/plain_accounts/plain_account"
 	"pandora-pay/cryptography"
 	"pandora-pay/cryptography/crypto"
 	"pandora-pay/helpers/advanced_buffers"
-	"strconv"
 )
 
 type TransactionSimpleNothing struct {
 	TransactionSimpleExtraInterface
+	TxId               []byte
+	PayloadIndex       byte
+	Resolution         bool
+	MultisigPublicKeys [][]byte
+	Signatures         [][]byte
 }
-
-// func (this *TransactionSimpleNothing) IncludeTransactionVin0(blockHeight uint64, plainAcc *plain_account.PlainAccount, dataStorage *data_storage.DataStorage) (err error) {
-
-
-// 	return
-// }
 
 func (this *TransactionSimpleNothing) MessageForSigning() []byte {
 	w := advanced_buffers.NewBufferWriter()
