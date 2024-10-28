@@ -70,7 +70,11 @@ func NewAPI(apiStore *api_common.APIStore, apiCommon *api_common.APICommon, chai
 	}
 
 	api.PostMap = map[string]func(values io.ReadCloser) (interface{}, error){
-		"wallet/private-transfer": api_code_http.HandlePOSTAuthenticated[api_common.APIWalletPrivateTransferRequest, api_common.APIWalletPrivateTransferReply](api.apiCommon.WalletPrivateTransfer),
+		"wallet/private-transfer":              api_code_http.HandlePOSTAuthenticated[api_common.APIWalletPrivateTransferRequest, api_common.APIWalletPrivateTransferReply](api.apiCommon.WalletPrivateTransfer),
+		"wallet/private-create-asset":          api_code_http.HandlePOSTAuthenticated[api_common.APIWalletPrivateCreateAssetRequest, api_common.APIWalletPrivateCreateAssetReply](api.apiCommon.WalletPrivateCreateAsset),
+		"wallet/private-fund-plain-account":    api_code_http.HandlePOSTAuthenticated[api_common.APIWalletPrivateFundPlainAccountRequest, api_common.APIWalletPrivateFundPlainAccountReply](api.apiCommon.WalletPrivateFundPlainAccount),
+		"wallet/private-asset-supply-increase": api_code_http.HandlePOSTAuthenticated[api_common.APIWalletPrivateAssetSupplyIncreaseRequest, api_common.APIWalletPrivateAssetSupplyIncreaseReply](api.apiCommon.WalletPrivateAssetSupplyIncrease),
+		"wallet/update-asset-fee-liquidity":    api_code_http.HandlePOSTAuthenticated[api_common.APIWalletUpdateAssetFeeLiquidityRequest, api_common.APIWalletUpdateAssetFeeLiquidityReply](api.apiCommon.WalletUpdateAssetFeeLiquidity),
 	}
 
 	if config.NODE_PROVIDE_EXTENDED_INFO_APP {
