@@ -23,16 +23,16 @@ continue=false
 extraArgs=""
 
 for arg in $@; do
-  if [ $arg == "--pprof" ]; then
+  if [[ $arg == "--pprof" ]]; then
     extraArgs+=" $arg "
   fi
-  if [ $arg == "mode=race" ]; then
+  if [[ $arg == "mode=race" ]]; then
     race=true
   fi
-  if [ $arg == "--debug" ]; then
+  if [[ $arg == "--debug" ]]; then
     extraArgs+=" $arg "
   fi
-  if [ $arg == "--light-computations" ]; then
+  if [[ $arg == "--light-computations" ]]; then
     extraArgs+=" --light-computations"
   fi
   if [[ $arg == *"--tcp-server-address="* ]]; then
@@ -41,10 +41,10 @@ for arg in $@; do
   if [[ $arg == *"--tcp-server-port="* ]]; then
     extraArgs+=" $arg "
   fi
-  if [ $arg == "--tcp-server-auto-tls-certificate" ]; then
+  if [[ $arg == "--tcp-server-auto-tls-certificate" ]]; then
       extraArgs+=" $arg "
   fi
-  if [ $arg == "continue" ]; then
+  if [[ $arg == "continue" ]]; then
     continue=true
   fi
 done
@@ -79,7 +79,13 @@ if [ $continue == false ]; then
       rm ./_build/devnet_$i/DEV/store/wallet_store.bolt 2>/dev/null
 
       echo "running $i"
-      xterm -e go run main.go --instance="devnet" --instance-id="$i" --network="devnet" --wallet-export-shared-staked-address="auto,0,staked.address" --exit
+      go run main.go --instance="devnet" --instance-id="$i" --network="devnet" --wallet-export-shared-staked-address="auto,0,staked.address" --exit &
+      BACK_PID=$!
+      while kill -0 $BACK_PID ; do
+        echo "Process is still active..."
+        sleep 1
+      done
+
       mv ./_build/devnet_$i/DEV/staked.address ./_build/devnet_0/DEV/$i.stake
       echo "executed"
 
@@ -97,7 +103,12 @@ if [ $continue == false ]; then
 
   # A new genesis file will be created to restart the timestamp
   echo "creating genesis $str"
-  xterm -e go run main.go --instance="devnet" --instance-id="0" --network="devnet" --create-new-genesis="$str" --exit
+  go run main.go --instance="devnet" --instance-id="0" --network="devnet" --create-new-genesis="$str" --exit &
+  BACK_PID=$!
+  while kill -0 $BACK_PID ; do
+    echo "Process is still active..."
+    sleep 1
+  done
 
   sleep 0.1
 
@@ -117,15 +128,10 @@ fi
 
 sleep 0.1
 
-for ((i = 0; i < $nodes; ++i)); do
-  echo "opening $i"
-  if $race; then
-    qterminal GORACE="log_path=/$SCRIPTPATH/report" -e go run -race main.go --instance="devnet" --instance-id="$i" --tcp-server-port="5230" --new-devnet --run-testnet-script --network="devnet" --set-genesis="file" --forging --hcaptcha-secret="0x0000000000000000000000000000000000000000" --faucet-testnet-enabled="true" --delegator-enabled="true"  $extraArgs &
-  else
-    echo  --instance="devnet" --instance-id="$i" --new-devnet --run-testnet-script --network="devnet" --set-genesis="file" --forging --hcaptcha-secret="0x0000000000000000000000000000000000000000" --faucet-testnet-enabled="true" --delegator-enabled="true" $extraArgs
-    xterm -e go run main.go --instance="devnet" --instance-id="$i" --new-devnet --run-testnet-script --network="devnet" --set-genesis="file" --forging --hcaptcha-secret="0x0000000000000000000000000000000000000000" --faucet-testnet-enabled="true" --delegator-enabled="true"  $extraArgs &
-  fi
-done
+screen -S "devnet_0" -d -m go run main.go --tcp-server-port="2053" --instance="devnet" --instance-id="0" --new-devnet --run-testnet-script --network="devnet" --set-genesis="file" --forging --hcaptcha-secret="0x0000000000000000000000000000000000000000" --faucet-testnet-enabled="true" --delegator-enabled="true"  $extraArgs &
+screen -S "devnet_1" -d -m go run main.go --tcp-server-port="2082" --instance="devnet" --instance-id="1" --new-devnet --run-testnet-script --network="devnet" --set-genesis="file" --forging --hcaptcha-secret="0x0000000000000000000000000000000000000000" --faucet-testnet-enabled="true" --delegator-enabled="true"  $extraArgs &
+screen -S "devnet_2" -d -m go run main.go --tcp-server-port="2085" --instance="devnet" --instance-id="2" --new-devnet --run-testnet-script --network="devnet" --set-genesis="file" --forging --hcaptcha-secret="0x0000000000000000000000000000000000000000" --faucet-testnet-enabled="true" --delegator-enabled="true"  $extraArgs &
+screen -S "devnet_3" -d -m go run main.go --tcp-server-port="2093" --instance="devnet" --instance-id="3" --new-devnet --run-testnet-script --network="devnet" --set-genesis="file" --forging --hcaptcha-secret="0x0000000000000000000000000000000000000000" --faucet-testnet-enabled="true" --delegator-enabled="true"  $extraArgs &
 
 wait
 

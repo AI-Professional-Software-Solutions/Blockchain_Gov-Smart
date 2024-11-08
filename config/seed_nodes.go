@@ -9,31 +9,31 @@ var (
 
 	TEST_NET_SEED_NODES = []*SeedNode{
 		{
-			"ws://helloworldx.ddns.net:16000/ws",
+			"wss://blockchain.gov-smart.com:2053/ws",
 		},
 		{
-			"ws://helloworldx.ddns.net:16001/ws",
+			"wss://blockchain.gov-smart.com:2083/ws",
 		},
 		{
-			"ws://helloworldx.ddns.net:16002/ws",
+			"wss://blockchain.gov-smart.com:2087/ws",
 		},
 		{
-			"ws://helloworldx.ddns.net:16003/ws",
+			"wss://blockchain.gov-smart.com:2096/ws",
 		},
 	}
 
 	DEV_NET_SEED_NODES = []*SeedNode{
 		{
-			"ws://127.0.0.1:5230/ws",
+			"wss://blockchain.gov-smart.com:2053/ws",
 		},
 		{
-			"ws://127.0.0.1:5231/ws",
+			"wss://blockchain.gov-smart.com:2083/ws",
 		},
 		{
-			"ws://127.0.0.1:5232/ws",
+			"wss://blockchain.gov-smart.com:2087/ws",
 		},
 		{
-			"ws://127.0.0.1:5233/ws",
+			"wss://blockchain.gov-smart.com:2096/ws",
 		},
 	}
 )
